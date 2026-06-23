@@ -1,0 +1,547 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Amiri", "Georgia", "Times New Roman", serif;
+  --font-sans: "Amiri", "Georgia", "Times New Roman", serif;
+  
+  --animate-fade-in: fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-scale-up: scale-up 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scale-up {
+  from { transform: scale(0.96); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Global RTL adjustments and Bento Grid Theme styles */
+:root {
+  --bg: #FAFAFA;
+  --border: #ECEEF2;
+  --card: #FFFFFF;
+  --text: #171717;
+  --accent: #000000;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  direction: rtl;
+  min-height: 100vh;
+}
+
+/* Elegantly styled modern Apple-style numbers */
+.hindi-num, .apple-num, .font-mono {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", "Inter", sans-serif !important;
+}
+
+/* Bento custom layout utilities */
+.bento-card {
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 24px !important;
+  padding: 24px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  position: relative !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.012), 0 1px 2px rgba(0,0,0,0.005) !important;
+}
+
+.bento-card:hover {
+  box-shadow: 0 12px 24px rgba(0,0,0,0.035), 0 2px 6px rgba(0,0,0,0.015) !important;
+  transform: translateY(-2px);
+  border-color: #D1D5DB !important;
+}
+
+/* Tab bar in style of Apple segmented controls */
+.nav-tabs-container {
+  display: flex !important;
+  gap: 4px !important;
+  background: #ECEEF2 !important;
+  padding: 4px !important;
+  border-radius: 9999px !important; /* Rounded capsule */
+  width: fit-content !important;
+  align-self: center !important;
+  height: auto !important;
+  min-height: 38px !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  max-width: 100% !important;
+}
+
+.tab-pill {
+  padding: 6px 12px !important;
+  border-radius: 9999px !important; /* Rounded capsule */
+  font-size: 11px !important;
+  cursor: pointer !important;
+  color: #666 !important;
+  transition: all 0.2s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  height: 30px !important;
+  font-family: "Amiri", serif !important;
+  white-space: nowrap !important;
+}
+
+@media (min-width: 645px) {
+  .tab-pill {
+    padding: 6px 18px !important;
+    font-size: 13.5px !important;
+  }
+}
+
+.tab-pill.active {
+  background: var(--card) !important;
+  color: var(--text) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06) !important;
+  font-weight: 600 !important;
+}
+
+/* Apple Pro unified buttons styling */
+.apple-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  height: 38px !important;
+  padding: 0 16px !important;
+  border-radius: 9999px !important; /* Round capsule */
+  font-size: 13px !important;
+  font-weight: 650 !important;
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  color: #555 !important;
+  cursor: pointer !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  font-family: "Amiri", serif !important;
+}
+
+.apple-btn:hover {
+  background: #F3F4F6 !important;
+  color: var(--text) !important;
+  border-color: #D1D5DB !important;
+}
+
+/* Bento sub-pills structure */
+.bento-pill-container {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+}
+
+.bento-pill {
+  background: #F9F9FB !important;
+  padding: 10px 14px !important;
+  border-radius: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 40% !important;
+  border: 1px solid transparent !important;
+  transition: all 0.2s ease !important;
+}
+
+.bento-pill:hover {
+  border-color: #DDD !important;
+  background: #F3F4F6 !important;
+}
+
+.bento-pill .num {
+  margin-top: 4px !important;
+  color: var(--accent) !important;
+  font-weight: 800 !important;
+}
+
+/* data item styled list items */
+.data-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+}
+
+.data-item {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding-bottom: 8px !important;
+  border-bottom: 1px solid #F8F8F8 !important;
+  transition: all 0.2s ease !important;
+}
+
+.data-item:hover {
+  background-color: #FAFAFA !important;
+  padding-right: 4px !important;
+}
+
+.data-label {
+  font-size: 14px !important;
+  color: var(--text) !important;
+}
+
+/* Print optimizations for pristine A4 exports */
+@media print {
+  @page {
+    size: A4 portrait !important;
+    margin: 0 !important; /* Set directly to 0 to prevent browser margins/offsets from splitting pages */
+  }
+
+  html, body {
+    background-color: #FFFFFF !important;
+    color: #171717 !important;
+    font-size: 11pt !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 100% !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    overflow: visible !important;
+  }
+
+  #root, .min-h-screen {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+}
+
+/* Clear non-printing elements */
+@media print {
+  .no-print,
+  .no-print *,
+  #sync-toolbar-btn,
+  #add-row-success-banner,
+  .sheets-simulator,
+  .gas-code-exporter,
+  .nav-tabs-container,
+  button,
+  header > div:last-child,
+  input,
+  iframe,
+  .pills-container {
+    display: none !important;
+    height: 0 !important;
+    width: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    position: absolute !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
+}
+
+/* Page Break and A4 Dimensions for preview page & print view */
+.print-page-container {
+  width: min(210mm, 100%) !important;
+  height: 297mm !important;
+  min-height: 297mm !important;
+  max-height: 297mm !important;
+  box-sizing: border-box !important;
+  background: #ffffff !important;
+  border: 1px solid #E5E7EB !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+  margin: 30px auto !important; /* Visual stack in the browser view */
+  padding: 0 !important;
+  page-break-after: always !important;
+  break-after: page !important;
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+@media print {
+  .print-page-container {
+    width: 210mm !important;
+    max-width: 210mm !important;
+    height: 297mm !important;
+    min-height: 297mm !important;
+    max-height: 297mm !important;
+    margin: 0 !important; /* Remove screen margin when printing */
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    overflow: hidden !important;
+  }
+}
+
+/* Ensure the bento contents are locked to exact A4 height */
+.print-page-container .printable-dashboard-area {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
+  padding: 12mm 14mm !important; /* Elegant 1.2cm padding all around */
+  box-sizing: border-box !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+  background: #ffffff !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+/* Force bento grid structures to match desktop layout perfectly across ALL viewport widths (both view and print) */
+.print-page-container .printable-dashboard-area .bento-main-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+}
+
+.print-page-container .bento-card {
+  padding: 14px !important;
+  border-radius: 12px !important;
+  background: #ffffff !important;
+  border: 1px solid #ECEEF2 !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+/* Preserve grid card dimensions & spans in both print and print-page view modes */
+.print-page-container .md\:row-span-2 {
+  grid-row: span 2 / span 2 !important;
+}
+.print-page-container .md\:col-span-2 {
+  grid-column: span 2 / span 2 !important;
+}
+.print-page-container .md\:col-span-3 {
+  grid-column: span 3 / span 3 !important;
+}
+
+/* Force exact heights and alignments inside the cards to fit flawlessly */
+.print-page-container .bento-card .mt-5 {
+  margin-top: 10px !important;
+}
+
+.print-page-container .printable-dashboard-area .flex-1.flex.flex-col {
+  justify-content: flex-start !important; /* Fix spacing where top spacing is aligned to title */
+}
+
+/* Dynamic rendering styles when printing only the statistics modal chart */
+@media print {
+  /* Hide modal container under standard report printing */
+  body:not([data-print-modal="true"]) .print-modal-container {
+    display: none !important;
+  }
+
+  body[data-print-modal="true"] {
+    display: block !important;
+    background-color: #ffffff !important;
+    color: #111111 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body[data-print-modal="true"] .printable-dashboard-area,
+  body[data-print-modal="true"] .print-page-container,
+  body[data-print-modal="true"] .print-spreadsheet-container,
+  body[data-print-modal="true"] header,
+  body[data-print-modal="true"] footer,
+  body[data-print-modal="true"] .no-print {
+    display: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body[data-print-modal="true"] #root,
+  body[data-print-modal="true"] .min-h-screen {
+    background: transparent !important;
+    display: block !important;
+    position: static !important;
+    height: auto !important;
+    min-height: 0 !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  body[data-print-modal="true"] .print-modal-container {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    min-height: 100vh !important;
+    background: white !important;
+    box-shadow: none !important;
+    border: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 20mm !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body[data-print-modal="true"] .print-modal-container > div {
+    border: none !important;
+    box-shadow: none !important;
+    background: white !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 170mm !important;
+    margin: auto !important;
+  }
+
+  body[data-print-modal="true"] .print-modal-container button {
+    display: none !important;
+  }
+
+  body[data-print-modal="true"] .print-modal-container span,
+  body[data-print-modal="true"] .print-modal-container p,
+  body[data-print-modal="true"] .print-modal-container h3,
+  body[data-print-modal="true"] .print-modal-container div {
+    color: #171717 !important;
+    font-family: "Amiri", serif !important;
+  }
+
+  /* Remove chart outline, and set nice background & height & padding */
+  body[data-print-modal="true"] .print-modal-container .chart-bars-container {
+    background-color: transparent !important;
+    background: transparent !important;
+    border: none !important;
+    height: 250px !important;
+    padding-top: 35px !important;
+    padding-bottom: 8px !important;
+    margin: 20px 0 !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: space-between !important;
+  }
+
+  /* Styled bars */
+  body[data-print-modal="true"] .print-modal-container .chart-bar {
+    background-color: #1f2937 !important; /* Elegant dark slate gray */
+    border: none !important;
+    width: 22px !important;
+    border-radius: 4px 4px 0 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Properly sized, readable values under the bars */
+  body[data-print-modal="true"] .print-modal-container span.chart-value-label {
+    font-size: 11pt !important;
+    font-weight: bold !important;
+    font-family: monospace, sans-serif !important;
+    color: #111111 !important;
+    margin-top: 6px !important;
+    display: block !important;
+  }
+
+  /* Well-spaced month labels */
+  body[data-print-modal="true"] .print-modal-container .chart-month-labels-container {
+    margin-top: 10px !important;
+    padding: 0 4px !important;
+  }
+
+  body[data-print-modal="true"] .print-modal-container span.chart-month-label {
+    font-size: 10pt !important;
+    font-weight: bold !important;
+    color: #4b5563 !important;
+    font-family: "Amiri", serif !important;
+  }
+
+  body[data-print-modal="true"] .print-modal-container h3 {
+    font-size: 22pt !important;
+    font-weight: bold !important;
+    color: #111111 !important;
+    font-family: "Amiri", serif !important;
+    margin-top: 12px !important;
+    margin-bottom: 6px !important;
+  }
+
+  body[data-print-modal="true"] .print-modal-container p {
+    font-size: 11pt !important;
+    color: #4b5563 !important;
+    font-family: "Amiri", serif !important;
+    margin-bottom: 20px !important;
+  }
+
+  /* Spreadsheet print layout overrides */
+  body:not([data-print-spreadsheet="true"]) .print-spreadsheet-container {
+    display: none !important;
+  }
+
+  body[data-print-spreadsheet="true"] {
+    display: block !important;
+    background-color: #ffffff !important;
+    color: #111111 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body[data-print-spreadsheet="true"] .no-print,
+  body[data-print-spreadsheet="true"] .printable-dashboard-area,
+  body[data-print-spreadsheet="true"] .print-page-container,
+  body[data-print-spreadsheet="true"] header,
+  body[data-print-spreadsheet="true"] footer,
+  body[data-print-spreadsheet="true"] .print-modal-container {
+    display: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body[data-print-spreadsheet="true"] #root,
+  body[data-print-spreadsheet="true"] .min-h-screen {
+    background: transparent !important;
+    display: block !important;
+    position: static !important;
+    height: auto !important;
+    min-height: 0 !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  body[data-print-spreadsheet="true"] .print-spreadsheet-container {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: 297mm !important;
+    padding: 15mm 10mm !important;
+    margin: 0 auto !important;
+    color: #171717 !important;
+    font-family: "Amiri", serif !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body[data-print-spreadsheet="true"] .print-spreadsheet-container table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+  }
+
+  body[data-print-spreadsheet="true"] .print-spreadsheet-container th {
+    background-color: #f3f4f6 !important;
+    color: #1f2937 !important;
+    border: 1px solid #9ca3af !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body[data-print-spreadsheet="true"] .print-spreadsheet-container td {
+    border: 1px solid #d1d5db !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
