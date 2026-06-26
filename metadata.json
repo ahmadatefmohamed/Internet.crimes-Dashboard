@@ -1,6 +1,0 @@
-{
-  "name": "Apps Script Sheets Dashboard",
-  "description": "An elegant, Apple-inspired bento bento-grid dashboard designed for Google Sheets Data, in Arabic (RTL) with Amiri font and custom numerical formats. Includes a live interactive Sheet simulator and ready-to-deploy Google Apps Script code exporter.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
