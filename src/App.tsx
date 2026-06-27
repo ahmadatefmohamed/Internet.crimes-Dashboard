@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useRef, useEffect, useLayoutEffect, useMemo, useCallback, useDeferredValue } from "react";
 import { 
   Printer, 
   Share2, 
@@ -574,55 +574,158 @@ const SyncIconComponent = ({ isSyncing }: { isSyncing: boolean }) => {
 };
 
 const whiteButtonVariants = {
-  initial: { opacity: 0, scale: 0.95, y: 6 },
+  initial: { opacity: 0, scale: 0.96, y: 6, filter: "blur(4px)" },
   settled: (delay: number) => ({
     opacity: 1,
     scale: 1,
     y: 0,
+    filter: "blur(0px)",
     backgroundColor: "#ffffff",
     boxShadow: "0 1px 2px rgba(0, 0, 0, 0.01), 0 0 0 0.5px rgba(0, 0, 0, 0.03)",
-    transition: { duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] }
+    transition: { duration: 0.48, delay, ease: [0.16, 1, 0.3, 1] }
   }),
   hover: {
-    y: -1.5,
-    scale: 1,
+    y: -1.4,
+    scale: 1.01,
     backgroundColor: "#fafafb",
-    boxShadow: "0 3px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.01), 0 0 0 0.5px rgba(0, 0, 0, 0.02)",
-    transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] }
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.01), 0 0 0 0.5px rgba(0, 0, 0, 0.02)",
+    transition: { duration: 0.14, ease: [0.22, 1, 0.36, 1] }
   },
   tap: {
-    y: -1.5,
-    scale: 0.96,
+    y: -0.9,
+    scale: 0.986,
     backgroundColor: "#f2f2f5",
-    boxShadow: "0 1.5px 3px rgba(0, 0, 0, 0.02), 0 1px 1px rgba(0, 0, 0, 0.01), 0 0 0 0.5px rgba(0, 0, 0, 0.03)",
-    transition: { duration: 0.1, ease: [0.16, 1, 0.3, 1] }
+    boxShadow: "0 2px 6px rgba(0, 0, 0, 0.03), 0 1px 1px rgba(0, 0, 0, 0.01), 0 0 0 0.5px rgba(0, 0, 0, 0.03)",
+    transition: { duration: 0.08, ease: [0.22, 1, 0.36, 1] }
   }
 };
 
 const syncButtonVariants = {
-  initial: { opacity: 0, scale: 0.95, y: 6 },
+  initial: { opacity: 0, scale: 0.96, y: 6, filter: "blur(4px)" },
   settled: (delay: number) => ({
     opacity: 1,
     scale: 1,
     y: 0,
+    filter: "blur(0px)",
     backgroundColor: "#0071e3",
     boxShadow: "0 1px 2px rgba(0, 113, 227, 0.1)",
-    transition: { duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] }
+    transition: { duration: 0.48, delay, ease: [0.16, 1, 0.3, 1] }
   }),
   hover: {
-    y: -1.5,
-    scale: 1,
+    y: -1.4,
+    scale: 1.01,
     backgroundColor: "#0077ed",
-    boxShadow: "0 4px 12px rgba(0, 113, 227, 0.15), 0 1px 2px rgba(0, 113, 227, 0.05)",
-    transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] }
+    boxShadow: "0 5px 16px rgba(0, 113, 227, 0.16), 0 1px 2px rgba(0, 113, 227, 0.05)",
+    transition: { duration: 0.14, ease: [0.22, 1, 0.36, 1] }
   },
   tap: {
-    y: -1.5,
-    scale: 0.96,
+    y: -0.9,
+    scale: 0.986,
     backgroundColor: "#0062c2",
-    boxShadow: "0 1.5px 4px rgba(0, 113, 227, 0.1)",
-    transition: { duration: 0.1, ease: [0.16, 1, 0.3, 1] }
+    boxShadow: "0 2px 8px rgba(0, 113, 227, 0.12)",
+    transition: { duration: 0.08, ease: [0.22, 1, 0.36, 1] }
   }
+};
+
+const toolbarButtonMotionStyle = {
+  transformOrigin: "center center" as const,
+  transform: "translateZ(0)",
+  willChange: "transform, box-shadow, background-color",
+  backfaceVisibility: "hidden" as const
+};
+
+const toolbarIconMotionStyle = {
+  transformOrigin: "center center" as const,
+  x: 0,
+  y: 0
+};
+
+const toolbarInteractionTransition = {
+  duration: 0.08,
+  ease: [0.22, 1, 0.36, 1] as const
+};
+
+const dashboardEntranceVariants = {
+  hidden: { opacity: 0, y: 18, scale: 0.985, filter: "blur(6px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    filter: "blur(0px)",
+    transition: { duration: 0.58, ease: [0.22, 1, 0.36, 1] }
+  }
+};
+
+const tabBarEntranceVariants = {
+  hidden: { opacity: 0, y: -12, scale: 0.985 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
+  }
+};
+
+const topNavTabsVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.045, delayChildren: 0.02 }
+  }
+};
+
+const topNavTabVariants = {
+  hidden: { opacity: 0, y: 8, scale: 0.985 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] } }
+};
+
+const monthTabsRowVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.04, delayChildren: 0.02 }
+  }
+};
+
+const monthTabVariant = {
+  hidden: { opacity: 0, y: 8, scale: 0.985 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] } }
+};
+
+const dashboardContentVariants = {
+  hidden: { opacity: 0, y: 12, scale: 0.985, filter: "blur(5px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    filter: "blur(0px)",
+    transition: { duration: 0.42, ease: [0.22, 1, 0.36, 1] }
+  }
+};
+
+const dashboardGridVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.045, delayChildren: 0.03 }
+  }
+};
+
+const dashboardCardVariant = {
+  hidden: { opacity: 0, y: 10, scale: 0.985 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] } }
+};
+
+const spreadsheetContentVariants = {
+  hidden: { opacity: 0, y: 12, scale: 0.985 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] }
+  }
+};
+
+const spreadsheetSectionVariant = {
+  hidden: { opacity: 0, y: 10, scale: 0.985 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] } }
 };
 
 export default function App() {
@@ -643,6 +746,22 @@ export default function App() {
   const uniqueAspects = useMemo(() => {
     return Array.from(new Set(sheetData.map(r => r.aspect.trim()))) as string[];
   }, [sheetData]);
+
+  const sheetDataLookup = useMemo(() => {
+    const lookup = new Map<string, Map<string, SheetRow>>();
+    sheetData.forEach((row) => {
+      const aspect = row.aspect.trim();
+      const date = row.date.trim();
+      if (!lookup.has(aspect)) {
+        lookup.set(aspect, new Map<string, SheetRow>());
+      }
+      const aspectLookup = lookup.get(aspect)!;
+      if (!aspectLookup.has(date)) {
+        aspectLookup.set(date, row);
+      }
+    });
+    return lookup;
+  }, [sheetData]);
   const [selectedMonth, setSelectedMonth] = useState<string>("2026"); // "2026" is the year aggregate
   const [activeTab, setActiveTab] = useState<"dashboard" | "spreadsheet">("dashboard");
   const [isHindiNumerals, setIsHindiNumerals] = useState<boolean>(true);
@@ -659,8 +778,11 @@ export default function App() {
     return localStorage.getItem("cybercrime_last_synced") || null;
   });
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
+  const [isInitialAutoSyncing, setIsInitialAutoSyncing] = useState<boolean>(true);
+  const [hasInitialAutoSyncCompleted, setHasInitialAutoSyncCompleted] = useState<boolean>(false);
   const [syncError, setSyncError] = useState<string | null>(null);
   const [isSyncSectionExpanded, setIsSyncSectionExpanded] = useState<boolean>(false);
+  const autoSyncAttemptedRef = useRef(false);
 
   // Custom printing state to support multi-page A4 PDF printing of all 13 tabs!
   const [isPrintingAll, setIsPrintingAll] = useState<boolean>(false);
@@ -701,14 +823,18 @@ export default function App() {
   const [isSharing, setIsSharing] = useState<boolean>(false);
   const [showToast, setShowToast] = useState<boolean>(false);
 
-  // Triggered exactly once on initial mount for staggered Apple-style entry of the toolbar buttons
-  const [isToolbarReady, setIsToolbarReady] = useState<boolean>(false);
-  useEffect(() => {
-    // 180ms delay to let the dashboard finish rendering and layout settle perfectly
-    const timer = setTimeout(() => {
+  // Keep the shell visible immediately, then transition the entrance in a controlled way to avoid flash/jitter.
+  const [isToolbarReady, setIsToolbarReady] = useState<boolean>(true);
+  const [isDashboardReady, setIsDashboardReady] = useState<boolean>(true);
+  const initialReadyRef = useRef(false);
+  useLayoutEffect(() => {
+    if (initialReadyRef.current) return;
+    initialReadyRef.current = true;
+    const frame = window.requestAnimationFrame(() => {
       setIsToolbarReady(true);
-    }, 180);
-    return () => clearTimeout(timer);
+      setIsDashboardReady(true);
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
   // Auto-dismiss share toast notification after 1.8 seconds
@@ -884,6 +1010,7 @@ export default function App() {
 
   // Spreadsheet Editor state
   const [editorSearch, setEditorSearch] = useState<string>("");
+  const deferredEditorSearch = useDeferredValue(editorSearch);
   const [newAspectName, setNewAspectName] = useState<string>("");
   const [newAspectCount, setNewAspectCount] = useState<number>(0);
   const [newAspectMonth, setNewAspectMonth] = useState<string>("يناير");
@@ -915,7 +1042,7 @@ export default function App() {
       const monthlyValues: Record<string, number> = {};
       let totalAllYear = 0;
       monthsRTL.forEach(m => {
-        const match = sheetData.find(r => r.aspect.trim() === aspect && r.date.trim() === m);
+        const match = sheetDataLookup.get(aspect)?.get(m);
         const val = match ? match.count : 0;
         monthlyValues[m] = val;
         totalAllYear += val;
@@ -926,7 +1053,7 @@ export default function App() {
         totalAllYear
       };
     });
-  }, [sheetData, uniqueAspects]);
+  }, [sheetDataLookup, uniqueAspects]);
 
   // Pre-calculate active totals based on selectedFilterMonths.
   const activeAggregatedRows = useMemo(() => {
@@ -1023,13 +1150,19 @@ export default function App() {
     return rows;
   };
 
-  const handleSyncGoogleSheet = async (urlToSync: string) => {
+  const handleSyncGoogleSheet = async (urlToSync: string, options?: { isInitialAutoSync?: boolean }) => {
+    const isInitialAutoSync = options?.isInitialAutoSync ?? false;
+
     if (!urlToSync.trim()) {
       setSyncError("يرجى إدخال رابط جدول بيانات Google Sheet صحيح.");
       return;
     }
 
-    setIsSyncing(true);
+    if (isInitialAutoSync) {
+      setIsInitialAutoSyncing(true);
+    } else {
+      setIsSyncing(true);
+    }
     setSyncError(null);
 
     try {
@@ -1043,7 +1176,14 @@ export default function App() {
       // Fetch specifically tab/sheet named "Data"
       const csvUrl = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?tqx=out:csv&sheet=Data`;
 
-      const response = await fetch(csvUrl);
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(() => controller.abort(), 18000);
+
+      const response = await fetch(csvUrl, {
+        cache: "no-store",
+        headers: { Accept: "text/csv" },
+        signal: controller.signal
+      });
       if (!response.ok) {
         throw new Error("فشل الاتصال بجدول البيانات المرفق. يرجى التأكد من تعديل إعدادات المشاركة فى الشيت لتصبح 'أي شخص لديه الرابط' (Viewer/عارض).");
       }
@@ -1072,9 +1212,18 @@ export default function App() {
       localStorage.setItem("cybercrime_last_synced", egyptianTime);
     } catch (err: any) {
       console.error(err);
-      setSyncError(err.message || "فشل تحميل البيانات التلقائية. يرجى مراجعة إعدادات مشاركة الرابط.");
+      if (err?.name === "AbortError") {
+        setSyncError("تجاوزت عملية المزامنة الوقت المسموح به. يرجى المحاولة مرة أخرى أو التحقق من سرعة الاتصال.");
+      } else {
+        setSyncError(err.message || "فشل تحميل البيانات التلقائية. يرجى مراجعة إعدادات مشاركة الرابط.");
+      }
     } finally {
-      setIsSyncing(false);
+      if (isInitialAutoSync) {
+        setIsInitialAutoSyncing(false);
+        setHasInitialAutoSyncCompleted(true);
+      } else {
+        setIsSyncing(false);
+      }
     }
   };
 
@@ -1090,25 +1239,24 @@ export default function App() {
     }
   };
 
-  // Auto sync on mount if googleSheetUrl is stored or passed via URL query parameter
+  // Auto sync once on mount if googleSheetUrl is stored or passed via URL query parameter.
   useEffect(() => {
+    if (autoSyncAttemptedRef.current) return;
+    autoSyncAttemptedRef.current = true;
+
     const searchStr = window.location.search || (window.location.hash.includes("?") ? window.location.hash.substring(window.location.hash.indexOf("?")) : "");
     const params = new URLSearchParams(searchStr);
     const urlParam = params.get("sheet") || params.get("url") || params.get("sheetUrl");
-    if (urlParam) {
-      const decodedUrl = decodeURIComponent(urlParam);
-      setGoogleSheetUrl(decodedUrl);
-      handleSyncGoogleSheet(decodedUrl);
-    } else {
-      let savedUrl = localStorage.getItem("cybercrime_sheet_url");
-      if (!savedUrl || savedUrl === OLD_DEFAULT_GOOGLE_SHEET_URL) {
-        savedUrl = DEFAULT_GOOGLE_SHEET_URL;
-      }
-      if (savedUrl) {
-        setGoogleSheetUrl(savedUrl);
-        handleSyncGoogleSheet(savedUrl);
-      }
-    }
+    const targetUrl = urlParam
+      ? decodeURIComponent(urlParam)
+      : (localStorage.getItem("cybercrime_sheet_url") || DEFAULT_GOOGLE_SHEET_URL);
+
+    const normalizedUrl = (!targetUrl || targetUrl === OLD_DEFAULT_GOOGLE_SHEET_URL)
+      ? DEFAULT_GOOGLE_SHEET_URL
+      : targetUrl;
+
+    setGoogleSheetUrl(normalizedUrl);
+    handleSyncGoogleSheet(normalizedUrl, { isInitialAutoSync: true });
   }, []);
 
   // Reset edited data back to initial sample values
@@ -1330,14 +1478,23 @@ export default function App() {
 
     const targetNorm = normalizeText(aspectKey);
     const hasDedicatedTotalSeizures = sheetData.some(r => normalizeText(r.aspect) === "اجمالي عدد الضبطيات");
+    const rowsByMonth = new Map<string, SheetRow[]>();
+
+    sheetData.forEach((row) => {
+      const month = row.date.trim();
+      if (!rowsByMonth.has(month)) {
+        rowsByMonth.set(month, []);
+      }
+      rowsByMonth.get(month)!.push(row);
+    });
 
     return monthsRTL.map(mName => {
       let sum = 0;
-      sheetData.forEach(row => {
-        if (row.date === mName) {
-          let matches = false;
-          const rawAspect = row.aspect || "";
-          const norm = normalizeText(rawAspect);
+      const rowsForMonth = rowsByMonth.get(mName) || [];
+      rowsForMonth.forEach((row) => {
+        let matches = false;
+        const rawAspect = row.aspect || "";
+        const norm = normalizeText(rawAspect);
 
           if (aspectKey === "أدوية جدول") {
             matches = (norm.includes("مخدر") || norm.includes("جدول اول") || norm.includes("جدول ثالث") || norm.includes("جدول"));
@@ -1401,9 +1558,8 @@ export default function App() {
             }
           }
 
-          if (matches) {
-            sum += Number(row.count) || 0;
-          }
+        if (matches) {
+          sum += Number(row.count) || 0;
         }
       });
       return { month: mName, count: sum };
@@ -1701,8 +1857,14 @@ export default function App() {
           </div>
 
           {/* MAIN MODAL NAV PILLS */}
-          <div className="nav-tabs-container">
-            <button
+          <motion.div
+            initial="hidden"
+            animate={isDashboardReady ? "visible" : "hidden"}
+            variants={topNavTabsVariants}
+            className="nav-tabs-container"
+          >
+            <motion.button
+              variants={topNavTabVariants}
               onClick={() => setActiveTab("dashboard")}
               className={`tab-pill flex items-center gap-1.5 font-bold ${
                 activeTab === "dashboard" ? "active" : ""
@@ -1723,8 +1885,9 @@ export default function App() {
                 <rect x="14" y="14" width="7" height="7" rx="2" />
               </svg>
               <span>لوحة البيانات</span>
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              variants={topNavTabVariants}
               onClick={() => setActiveTab("spreadsheet")}
               className={`tab-pill flex items-center gap-1.5 font-bold ${
                 activeTab === "spreadsheet" ? "active" : ""
@@ -1732,13 +1895,18 @@ export default function App() {
             >
               <Database className="w-3.5 h-3.5" />
               <span>جدول البيانات</span>
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
 
           {/* UTILITY BAR */}
-          <div className="flex items-center gap-2 md:gap-3 flex-wrap justify-center">
+          <motion.div
+            initial="hidden"
+            animate={isDashboardReady ? "visible" : "hidden"}
+            variants={tabBarEntranceVariants}
+            className="flex items-center gap-2 md:gap-3 flex-wrap justify-center"
+          >
             {/* Sync Live Button (Replacing numeral switch) */}
-            <div className="relative w-10 h-10 md:w-[42px] md:h-[42px] shrink-0 flex-none" id="sync-toolbar-wrapper">
+            <div className="relative aspect-square w-10 h-10 md:w-[42px] md:h-[42px] shrink-0 flex-none" id="sync-toolbar-wrapper">
               <motion.button
                 onClick={() => {
                   const activeUrl = googleSheetUrl || localStorage.getItem("cybercrime_sheet_url") || "";
@@ -1752,19 +1920,27 @@ export default function App() {
                     handleSyncGoogleSheet(activeUrl);
                   }
                 }}
-                disabled={isSyncing}
+                disabled={isSyncing || isInitialAutoSyncing}
                 variants={syncButtonVariants}
                 custom={0}
                 initial="initial"
                 animate={isToolbarReady ? "settled" : "initial"}
                 whileHover="hover"
                 whileTap="tap"
-                className="relative overflow-hidden p-2.5 text-white rounded-xl cursor-pointer flex items-center justify-center h-full w-full border border-transparent outline-none focus-visible:ring-2 focus-visible:ring-blue-500/20 focus-visible:ring-offset-1 select-none shrink-0 flex-none"
-                title="مزامنة وجلب البيانات من Google Sheet"
+                className="relative isolate overflow-hidden p-2.5 text-white rounded-xl cursor-pointer flex items-center justify-center h-full w-full border border-transparent outline-none focus-visible:ring-2 focus-visible:ring-blue-500/20 focus-visible:ring-offset-1 select-none shrink-0 flex-none"
+                title={isInitialAutoSyncing ? "جارٍ التحديث الأولي للبيانات" : "مزامنة وجلب البيانات من Google Sheet"}
                 id="sync-toolbar-btn"
-                style={{ transformOrigin: "center" }}
+                style={toolbarButtonMotionStyle}
               >
-                <SyncIconComponent isSyncing={isSyncing} />
+                <motion.div
+                  className="relative flex items-center justify-center w-5 h-5 shrink-0"
+                  initial={toolbarIconMotionStyle}
+                  whileHover={{ y: -0.28, x: 0 }}
+                  whileTap={{ y: -0.16, x: 0, scale: 0.97 }}
+                  transition={toolbarInteractionTransition}
+                >
+                  <SyncIconComponent isSyncing={isSyncing || isInitialAutoSyncing} />
+                </motion.div>
                 <motion.span
                   className="absolute inset-0 pointer-events-none rounded-xl"
                   initial={{ opacity: 0 }}
@@ -1779,7 +1955,7 @@ export default function App() {
             </div>
 
             {/* Print dropdown selector */}
-            <div className="relative w-10 h-10 md:w-[42px] md:h-[42px] shrink-0 flex-none" onClick={(e) => e.stopPropagation()} id="print-toolbar-wrapper">
+            <div className="relative aspect-square w-10 h-10 md:w-[42px] md:h-[42px] shrink-0 flex-none" onClick={(e) => e.stopPropagation()} id="print-toolbar-wrapper">
               <motion.button
                 onClick={() => {
                   setShowPrintDropdown(!showPrintDropdown);
@@ -1795,9 +1971,17 @@ export default function App() {
                 whileTap="tap"
                 className="group relative overflow-hidden p-2.5 rounded-xl border-[0.5px] border-[#ECEEF2]/70 bg-white text-[#171717] flex items-center justify-center h-full w-full outline-none focus-visible:ring-2 focus-visible:ring-blue-500/20 focus-visible:ring-offset-1 select-none cursor-pointer shrink-0 flex-none"
                 title="طباعة التقرير"
-                style={{ transformOrigin: "center" }}
+                style={toolbarButtonMotionStyle}
               >
-                <PrinterIcon isPrinting={isPrinting} className="w-5 h-5 text-neutral-500 group-hover:text-neutral-800 transition-colors duration-[140ms] shrink-0 flex-none" />
+                <motion.div
+                  className="relative flex items-center justify-center w-5 h-5 shrink-0"
+                  initial={toolbarIconMotionStyle}
+                  whileHover={{ y: -0.28, x: 0 }}
+                  whileTap={{ y: -0.16, x: 0, scale: 0.97 }}
+                  transition={toolbarInteractionTransition}
+                >
+                  <PrinterIcon isPrinting={isPrinting} className="w-5 h-5 text-neutral-500 group-hover:text-neutral-800 transition-colors duration-150 ease-out shrink-0 flex-none" />
+                </motion.div>
                 <motion.span
                   className="absolute inset-0 pointer-events-none rounded-xl"
                   initial={{ opacity: 0 }}
@@ -1840,7 +2024,7 @@ export default function App() {
             </div>
 
             {/* Download PDF button */}
-            <div className="relative w-10 h-10 md:w-[42px] md:h-[42px] shrink-0 flex-none" onClick={(e) => e.stopPropagation()} id="download-toolbar-wrapper">
+            <div className="relative aspect-square w-10 h-10 md:w-[42px] md:h-[42px] shrink-0 flex-none" onClick={(e) => e.stopPropagation()} id="download-toolbar-wrapper">
               <motion.button
                 onClick={() => {
                   setShowDownloadDropdown(!showDownloadDropdown);
@@ -1856,9 +2040,17 @@ export default function App() {
                 whileTap="tap"
                 className="group relative overflow-hidden p-2.5 rounded-xl border-[0.5px] border-[#ECEEF2]/70 bg-white text-[#171717] flex items-center justify-center h-full w-full outline-none focus-visible:ring-2 focus-visible:ring-blue-500/20 focus-visible:ring-offset-1 select-none cursor-pointer shrink-0 flex-none"
                 title="تحميل كملف PDF"
-                style={{ transformOrigin: "center" }}
+                style={toolbarButtonMotionStyle}
               >
-                <DownloadIcon isDownloading={isDownloading} className="w-5 h-5 text-neutral-500 group-hover:text-neutral-800 transition-colors duration-[140ms] shrink-0 flex-none" />
+                <motion.div
+                  className="relative flex items-center justify-center w-5 h-5 shrink-0"
+                  initial={toolbarIconMotionStyle}
+                  whileHover={{ y: -0.28, x: 0 }}
+                  whileTap={{ y: -0.16, x: 0, scale: 0.97 }}
+                  transition={toolbarInteractionTransition}
+                >
+                  <DownloadIcon isDownloading={isDownloading} className="w-5 h-5 text-neutral-500 group-hover:text-neutral-800 transition-colors duration-150 ease-out shrink-0 flex-none" />
+                </motion.div>
                 <motion.span
                   className="absolute inset-0 pointer-events-none rounded-xl"
                   initial={{ opacity: 0 }}
@@ -1910,7 +2102,7 @@ export default function App() {
             </div>
 
             {/* Share button */}
-            <div className="relative w-10 h-10 md:w-[42px] md:h-[42px] shrink-0 flex-none" id="share-toolbar-wrapper">
+            <div className="relative aspect-square w-10 h-10 md:w-[42px] md:h-[42px] shrink-0 flex-none" id="share-toolbar-wrapper">
               <motion.button
                 onClick={handleShare}
                 variants={whiteButtonVariants}
@@ -1921,9 +2113,17 @@ export default function App() {
                 whileTap="tap"
                 className="group relative overflow-hidden p-2.5 rounded-xl border-[0.5px] border-[#ECEEF2]/70 bg-white text-[#171717] flex items-center justify-center h-full w-full outline-none focus-visible:ring-2 focus-visible:ring-blue-500/20 focus-visible:ring-offset-1 select-none cursor-pointer shrink-0 flex-none"
                 title="مشاركة الرابط"
-                style={{ transformOrigin: "center" }}
+                style={toolbarButtonMotionStyle}
               >
-                <ShareIcon isSharing={isSharing} className="w-5 h-5 text-neutral-500 group-hover:text-neutral-800 transition-colors duration-[140ms] shrink-0 flex-none" />
+                <motion.div
+                  className="relative flex items-center justify-center w-5 h-5 shrink-0"
+                  initial={toolbarIconMotionStyle}
+                  whileHover={{ y: -0.28, x: 0 }}
+                  whileTap={{ y: -0.16, x: 0, scale: 0.97 }}
+                  transition={toolbarInteractionTransition}
+                >
+                  <ShareIcon isSharing={isSharing} className="w-5 h-5 text-neutral-500 group-hover:text-neutral-800 transition-colors duration-150 ease-out shrink-0 flex-none" />
+                </motion.div>
                 <motion.span
                   className="absolute inset-0 pointer-events-none rounded-xl"
                   initial={{ opacity: 0 }}
@@ -1936,39 +2136,52 @@ export default function App() {
                 />
               </motion.button>
             </div>
-          </div>
+          </motion.div>
         </header>
 
         {/* ACTIVE MODULE CONTAINER */}
         
         {/* TAB 1: THE BEAUTIFUL APPLE BENTO DASHBOARD */}
-        <div className={`animate-fade-in relative ${activeTab === "dashboard" ? "" : "hidden"}`}>
+        <motion.div
+          initial="hidden"
+          animate={activeTab === "dashboard" ? (isDashboardReady ? "visible" : "hidden") : "hidden"}
+          exit="hidden"
+          variants={dashboardContentVariants}
+          className={`relative ${activeTab === "dashboard" ? "" : "hidden"}`}
+        >
             
             {/* 13 PILLS MONTLY TAB SELECTOR */}
-            <div className="mb-8 overflow-x-auto pb-2 relative flex md:justify-center no-print">
+            <motion.div
+              initial="hidden"
+              animate={activeTab === "dashboard" ? "visible" : "hidden"}
+              variants={monthTabsRowVariants}
+              className="mb-8 overflow-x-auto pb-2 relative flex md:justify-center no-print"
+            >
               <div className="nav-tabs-container min-w-max">
                 
                 {/* aggregates pill far-left (first in RTL) */}
-                <button
+                <motion.button
+                  variants={monthTabVariant}
                   onClick={() => setSelectedMonth("2026")}
                   className={`tab-pill ${selectedMonth === "2026" ? "active" : ""}`}
                 >
                   إجمالى
-                </button>
+                </motion.button>
 
                 {/* Monthly pills from Jan to Dec */}
                 {monthsRTL.map(mName => (
-                  <button
+                  <motion.button
                     key={mName}
+                    variants={monthTabVariant}
                     onClick={() => setSelectedMonth(mName)}
                     className={`tab-pill ${selectedMonth === mName ? "active" : ""}`}
                   >
                     {mName}
-                  </button>
+                  </motion.button>
                 ))}
 
               </div>
-            </div>
+            </motion.div>
 
             {/* DASHBOARD PRISTINE PRINTABLE Bento AREA */}
             <div className="printable-dashboard-area">
@@ -1976,7 +2189,12 @@ export default function App() {
 
 
               {/* BENTO GRID LAYOUT */}
-              <div className="grid grid-cols-1 md:grid-cols-3 md:grid-flow-row-dense gap-6">
+              <motion.div
+                initial="hidden"
+                animate={activeTab === "dashboard" ? "visible" : "hidden"}
+                variants={dashboardGridVariants}
+                className="grid grid-cols-1 md:grid-cols-3 md:grid-flow-row-dense gap-6"
+              >
                 
                 {/* CARD 1: Total Seizure value in LE (Uneven row / heights, spans 1 column) */}
                 <div 
@@ -2017,7 +2235,7 @@ export default function App() {
                 </div>
 
                 {/* CARD 7: Facilities Target numbers (Spans 2 Rows for a gorgeous vertical panel) */}
-                <div className="border border-[#ECEEF2] bg-white rounded-2xl px-3 md:px-4 py-4 md:py-5 transition-all flex flex-col md:col-span-1 md:row-span-2 bento-card">
+                <motion.div variants={dashboardCardVariant} className="border border-[#ECEEF2] bg-white rounded-2xl px-3 md:px-4 py-4 md:py-5 transition-all flex flex-col md:col-span-1 md:row-span-2 bento-card">
                   <div className="flex justify-center items-center text-center mb-3">
                     <h3 className="text-sm md:text-base font-bold text-[#171717] font-serif">نوع المؤسسة</h3>
                   </div>
@@ -2041,10 +2259,10 @@ export default function App() {
                       })}
                     </div>
                   </div>
-                </div>
+                </motion.div>
 
                 {/* CARD 3: Inspector Performance (Spans 2 Rows vertically to fit the puzzle perfectly) */}
-                <div className="border border-[#ECEEF2] bg-white rounded-2xl p-4 md:p-5 transition-all flex flex-col md:col-span-1 md:row-span-2 bento-card">
+                <motion.div variants={dashboardCardVariant} className="border border-[#ECEEF2] bg-white rounded-2xl p-4 md:p-5 transition-all flex flex-col md:col-span-1 md:row-span-2 bento-card">
                   <div className="text-right mb-3.5">
                     <h3 className="text-sm md:text-base font-bold text-[#171717] font-serif">عدد الضبطيات الموثقة لكل مفتش</h3>
                   </div>
@@ -2085,7 +2303,7 @@ export default function App() {
                       });
                     })()}
                   </div>
-                </div>
+                </motion.div>
 
                 {/* CARD 4: Facebook aspect (Spans 1 Col, height is Row-span-1) */}
                 <div 
@@ -2145,7 +2363,7 @@ export default function App() {
                 </div>
 
                 {/* CARD 6: Remaining platforms AND marketing sources, spans 2 columns, beautifully packed */}
-                <div className="border border-[#ECEEF2] bg-white rounded-2xl p-6 transition-all flex flex-col md:col-span-2 md:row-span-1 bento-card">
+                <motion.div variants={dashboardCardVariant} className="border border-[#ECEEF2] bg-white rounded-2xl p-6 transition-all flex flex-col md:col-span-2 md:row-span-1 bento-card">
                   <div className="flex justify-between items-center mb-4">
                     <div>
                       <h3 className="text-base font-bold text-[#171717] font-serif">وسائل التواصل ومنصات العرض</h3>
@@ -2171,7 +2389,7 @@ export default function App() {
                         );
                       })}
                   </div>
-                </div>
+                </motion.div>
 
                 {/* CARD 9: Smuggled Drugs */}
                 <div 
@@ -2265,7 +2483,7 @@ export default function App() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Elegant printable page number for single-page dashboard print */}
               <div className="hidden print:block text-center text-xs text-neutral-400 mt-6 pt-3 border-t border-neutral-200/60 font-sans apple-num font-bold">
@@ -2274,13 +2492,18 @@ export default function App() {
 
             </div>
 
-          </div>
+          </motion.div>
 
         {/* TAB 2: INTERACTIVE DATA TABLE IN LIVE SHEETS STYLE */}
-        <div className={`animate-fade-in sheets-simulator space-y-6 ${activeTab === "spreadsheet" ? "" : "hidden"}`}>
+        <motion.div
+          initial="hidden"
+          animate={activeTab === "spreadsheet" ? "visible" : "hidden"}
+          variants={spreadsheetContentVariants}
+          className={`animate-fade-in sheets-simulator space-y-6 ${activeTab === "spreadsheet" ? "" : "hidden"}`}
+        >
             
             {/* GOOGLE SHEETS LIVE SYNC COMPONENT CARD (THE LIVE ALTERNATIVE) */}
-            <div className="bg-white border border-[#ECEEF2] rounded-2xl p-6 shadow-sm text-right">
+            <motion.div variants={spreadsheetSectionVariant} className="bg-white border border-[#ECEEF2] rounded-2xl p-6 shadow-sm text-right">
               {/* Clickable Header for collapsing/expanding */}
               <div 
                 onClick={() => setIsSyncSectionExpanded(!isSyncSectionExpanded)}
@@ -2295,8 +2518,8 @@ export default function App() {
                 <div className="flex items-center gap-2">
                   {!isSyncSectionExpanded && googleSheetUrl && (
                     <div className="bg-green-50/60 border border-green-200/50 rounded-xl px-3 py-1 flex items-center gap-2 text-[10px] md:text-xs text-green-800 font-bold">
-                      <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
-                      <span>المزامنة مفعلة</span>
+                      <span className={`w-1.5 h-1.5 rounded-full ${isInitialAutoSyncing ? "bg-amber-500 animate-pulse" : "bg-green-500"}`}></span>
+                      <span>{isInitialAutoSyncing ? "جارٍ التحديث الأولي" : "المزامنة مفعلة"}</span>
                       {lastSyncTime && (
                         <span className="text-green-950 font-serif mr-1 border-r border-green-200/60 pr-1">
                           آخر مزامنة: {lastSyncTime}
@@ -2321,8 +2544,8 @@ export default function App() {
 
                   {googleSheetUrl && (
                     <div className="bg-green-50/60 border border-green-200/50 rounded-xl px-4 py-2 flex items-center gap-2 text-xs text-green-800 font-bold w-fit">
-                      <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
-                      <span>المزامنة التلقائية مفعلة</span>
+                      <span className={`w-1.5 h-1.5 rounded-full ${isInitialAutoSyncing ? "bg-amber-500 animate-pulse" : "bg-green-500"}`}></span>
+                      <span>{isInitialAutoSyncing ? "جارٍ تحديث البيانات أول مرة" : "المزامنة التلقائية مفعلة"}</span>
                       {lastSyncTime && (
                         <span className="text-green-950 font-serif mr-2 font-bold select-none border-r border-green-200/60 pr-2">
                           آخر مزامنة: {lastSyncTime}
@@ -2344,13 +2567,14 @@ export default function App() {
                       <button
                         type="button"
                         onClick={() => handleSyncGoogleSheet(googleSheetUrl)}
-                        disabled={isSyncing}
-                        className="bg-[#171717] text-white hover:bg-opacity-90 font-bold text-xs py-2.5 px-5 rounded-xl transition-all cursor-pointer disabled:opacity-50 flex items-center gap-1.5"
+                        disabled={isSyncing || isInitialAutoSyncing}
+                        className="bg-[#171717] text-white hover:bg-opacity-90 font-bold text-xs py-2.5 px-5 rounded-xl transition-all cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-1.5"
+                        title={isInitialAutoSyncing ? "جارٍ تحديث البيانات أول مرة..." : "مزامنة وجلب أحدث البيانات"}
                       >
-                        {isSyncing ? (
+                        {isSyncing || isInitialAutoSyncing ? (
                           <>
                             <span className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-                            <span>جاري المزامنة...</span>
+                            <span>{isInitialAutoSyncing ? "جارٍ التحديث الأولي..." : "جاري المزامنة..."}</span>
                           </>
                         ) : (
                           <>
@@ -2368,9 +2592,9 @@ export default function App() {
                   )}
                 </div>
               )}
-            </div>
+            </motion.div>
 
-            <div className="bg-white border border-[#ECEEF2] rounded-2xl p-6 shadow-sm no-print relative z-10 overflow-visible">
+            <motion.div variants={spreadsheetSectionVariant} className="bg-white border border-[#ECEEF2] rounded-2xl p-6 shadow-sm no-print relative z-10 overflow-visible">
               
               {/* TOP EDITOR CONTROLS */}
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-6 border-b border-[#ECEEF2]">
@@ -2558,7 +2782,7 @@ export default function App() {
                       .filter(row => {
                         // Filter with spreadsheet's search query and active aspect
                         if (!isAspectActive(row.aspect)) return false;
-                        const s = editorSearch.toLowerCase();
+                        const s = deferredEditorSearch.toLowerCase();
                         const localizedLabel = (aspectMetadata[row.aspect]?.label || row.aspect).toLowerCase();
                         return row.aspect.toLowerCase().includes(s) || localizedLabel.includes(s);
                       })
@@ -2585,11 +2809,9 @@ export default function App() {
                   </tbody>
                 </table>
               </div>
+            </motion.div>
 
-            </div>
-          </div>
-
-
+          </motion.div>
 
       </div>
 

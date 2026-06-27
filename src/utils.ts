@@ -26,6 +26,21 @@ export function computeMetrics(data: SheetRow[], selectedMonth: string): Dashboa
     ? data 
     : data.filter(row => row.date === selectedMonth);
 
+  const normalizedRows = filtered.map((row) => {
+    const rawAspect = row.aspect || "";
+    return {
+      count: Number(row.count) || 0,
+      norm: rawAspect
+        .trim()
+        .replace(/[أإآٱ]/g, "ا")
+        .replace(/ة/g, "ه")
+        .replace(/ى/g, "ي")
+        .replace(/\s+/g, " ")
+        .toLowerCase(),
+      rawAspect
+    };
+  });
+
   // Initialize values
   let totalSeizures = 0;
   let totalSeizuresValue = 0;
@@ -74,11 +89,8 @@ export function computeMetrics(data: SheetRow[], selectedMonth: string): Dashboa
       .toLowerCase();
   };
 
-  filtered.forEach(row => {
-    const rawAspect = row.aspect || "";
+  normalizedRows.forEach(({ rawAspect, norm, count }) => {
     const trimmedAspect = rawAspect.trim();
-    const norm = normalizeText(rawAspect);
-    const count = Number(row.count) || 0;
 
     // 1. Inspectors
     if (norm.includes("وليد القاضي") || norm.includes("وليد القاضي ") || norm.includes("وليد القاضى")) {

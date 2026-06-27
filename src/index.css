@@ -107,6 +107,53 @@ body {
   font-weight: 600 !important;
 }
 
+/* Smooth initial entrance for dashboard cards and tab controls */
+.bento-card {
+  animation: dashboard-card-enter 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: transform, opacity, filter;
+}
+
+.nav-tabs-container .tab-pill {
+  animation: tab-pill-enter 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.nav-tabs-container .tab-pill:nth-child(2) { animation-delay: 0.04s; }
+.nav-tabs-container .tab-pill:nth-child(3) { animation-delay: 0.08s; }
+.nav-tabs-container .tab-pill:nth-child(4) { animation-delay: 0.12s; }
+.nav-tabs-container .tab-pill:nth-child(5) { animation-delay: 0.16s; }
+.nav-tabs-container .tab-pill:nth-child(6) { animation-delay: 0.2s; }
+.nav-tabs-container .tab-pill:nth-child(7) { animation-delay: 0.24s; }
+.nav-tabs-container .tab-pill:nth-child(8) { animation-delay: 0.28s; }
+.nav-tabs-container .tab-pill:nth-child(9) { animation-delay: 0.32s; }
+.nav-tabs-container .tab-pill:nth-child(10) { animation-delay: 0.36s; }
+.nav-tabs-container .tab-pill:nth-child(11) { animation-delay: 0.4s; }
+.nav-tabs-container .tab-pill:nth-child(12) { animation-delay: 0.44s; }
+.nav-tabs-container .tab-pill:nth-child(13) { animation-delay: 0.48s; }
+
+@keyframes dashboard-card-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.985);
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes tab-pill-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.985);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 /* Apple Pro unified buttons styling */
 .apple-btn {
   display: inline-flex !important;
