@@ -88,7 +88,7 @@ const BentoDashboardPureStyle = React.memo(function BentoDashboardPureStyle({
           {/* CARD 1: Total Seizure value in LE */}
           <div 
             onClick={() => openModalForAspect?.("إجمالي القيمة التقديرية للمضبوطات الدوائية", "اجمالى قيمة المضبوطات", "جنيه")}
-            className="border border-[#ECEEF2] bg-white rounded-2xl p-5 print:p-3 flex flex-col justify-between transition-all duration-300 bento-card cursor-pointer group hover:border-blue-600/30"
+            className="border border-[#ECEEF2] bg-white rounded-2xl p-5 print:p-3 flex flex-col justify-between transition-all duration-200 ease-out bento-card cursor-pointer group hover:border-blue-600/30"
           >
             <div>
               <h3 className="text-sm font-bold text-neutral-500 font-serif group-hover:text-blue-600 transition-colors">إجمالي قيمة المضبوطات المقدرة</h3>
@@ -104,7 +104,7 @@ const BentoDashboardPureStyle = React.memo(function BentoDashboardPureStyle({
           {/* CARD 2: Total seizures counts */}
           <div 
             onClick={() => openModalForAspect?.("إجمالي عدد الضبطيات الرقمية لوحدة الرصد", "إجمالي الضبطيات", "ضبطية")}
-            className="border border-[#ECEEF2] bg-white rounded-2xl p-5 print:p-3 flex flex-col justify-between transition-all duration-300 bento-card cursor-pointer group hover:border-blue-600/30"
+            className="border border-[#ECEEF2] bg-white rounded-2xl p-5 print:p-3 flex flex-col justify-between transition-all duration-200 ease-out bento-card cursor-pointer group hover:border-blue-600/30"
           >
             <div>
               <h3 className="text-sm font-bold text-neutral-500 font-serif group-hover:text-blue-600 transition-colors">إجمالي عدد الضبطيات المنفذة</h3>
@@ -128,7 +128,7 @@ const BentoDashboardPureStyle = React.memo(function BentoDashboardPureStyle({
                     <div 
                       key={fac.name}
                       onClick={() => openModalForAspect?.(getFacilityModalTitle(fac.name), fac.name)}
-                      className="border border-[#ECEEF2] bg-neutral-50/25 hover:bg-neutral-50/10 rounded-2xl p-3.5 print:p-1.5 print:rounded-xl flex flex-col justify-center items-center text-center transition-all duration-300 cursor-pointer group hover:border-blue-600/30 aspect-[1.12/1] print:aspect-auto"
+                      className="border border-[#ECEEF2] bg-neutral-50/25 hover:bg-neutral-50/10 rounded-2xl p-3.5 print:p-1.5 print:rounded-xl flex flex-col justify-center items-center text-center transition-all duration-200 ease-out cursor-pointer group hover:border-blue-600/30 aspect-[1.12/1] print:aspect-auto"
                     >
                       <span className="text-[11px] font-bold text-neutral-500 font-serif leading-tight group-hover:text-blue-500 transition-colors">{meta.label}</span>
                       <span className="text-xl font-black text-[#171717] font-mono apple-num mt-2 print:mt-1 group-hover:text-blue-600 transition-colors">
@@ -179,7 +179,7 @@ const BentoDashboardPureStyle = React.memo(function BentoDashboardPureStyle({
           {/* CARD 5: Facebook */}
           <div 
             onClick={() => openModalForAspect?.("مخالفات الترويج عبر الفيسبوك", "فيسبوك")}
-            className="border border-[#ECEEF2] bg-white rounded-2xl p-5 print:p-3 flex flex-col justify-between transition-all duration-300 bento-card cursor-pointer group hover:border-blue-600/30"
+            className="border border-[#ECEEF2] bg-white rounded-2xl p-5 print:p-3 flex flex-col justify-between transition-all duration-200 ease-out bento-card cursor-pointer group hover:border-blue-600/30"
           >
             <div>
               <h3 className="text-sm font-bold text-neutral-500 font-serif group-hover:text-blue-600 transition-colors">بيع من خلال فيسبوك</h3>
@@ -195,7 +195,7 @@ const BentoDashboardPureStyle = React.memo(function BentoDashboardPureStyle({
           {/* CARD 6: Instashop */}
           <div 
             onClick={() => openModalForAspect?.("مخالفات التوصيل عبر تطبيق انستاشوب", "انستاشوب")}
-            className="border border-[#ECEEF2] bg-white rounded-2xl p-5 print:p-3 flex flex-col justify-between transition-all duration-300 bento-card cursor-pointer group hover:border-[#171717]/40"
+            className="border border-[#ECEEF2] bg-white rounded-2xl p-5 print:p-3 flex flex-col justify-between transition-all duration-200 ease-out bento-card cursor-pointer group hover:border-[#171717]/40"
           >
             <div>
               <h3 className="text-sm font-bold text-neutral-500 font-serif group-hover:text-blue-600 transition-colors">بيع عبر تطبيق انستاشوب</h3>
@@ -211,7 +211,7 @@ const BentoDashboardPureStyle = React.memo(function BentoDashboardPureStyle({
           {/* CARD 7: Schedule Drugs */}
           <div 
             onClick={() => openModalForAspect?.("مخالفات الاتجار بالأدوية المخدرة والسموم", "أدوية جدول")}
-            className="border border-[#ECEEF2] bg-white rounded-2xl p-5 print:p-3 flex flex-col justify-between transition-all duration-300 bento-card cursor-pointer group hover:border-red-500/30"
+            className="border border-[#ECEEF2] bg-white rounded-2xl p-5 print:p-3 flex flex-col justify-between transition-all duration-200 ease-out bento-card cursor-pointer group hover:border-red-500/30"
           >
             <div>
               <h3 className="text-sm font-bold text-neutral-500 font-serif group-hover:text-blue-600 transition-colors">أدوية الجدول (أول وثاث مخدرات)</h3>
@@ -225,7 +225,7 @@ const BentoDashboardPureStyle = React.memo(function BentoDashboardPureStyle({
           </div>
 
           {/* CARD 8: Remaining platforms (Spans 2 columns on medium up screens to balance layout perfectly) */}
-          <div className="border border-[#ECEEF2] bg-white rounded-2xl p-5 print:p-3 transition-all flex flex-col md:col-span-2 print:col-span-2 bento-card text-right">
+          <div className="border border-[#ECEEF2] bg-white rounded-2xl p-5 print:p-3 transition-all duration-200 ease-out flex flex-col md:col-span-2 print:col-span-2 bento-card text-right">
             <h3 className="text-sm font-bold text-[#171717] font-serif border-b border-neutral-100 pb-2 print:pb-1 mb-3 print:mb-1.5">وسائل التواصل ومنصات العرض</h3>
             <div className="grid grid-cols-2 gap-x-5 print:gap-x-3.5 gap-y-2.5 print:gap-y-1 flex-1 content-center">
               {mMetrics.platforms.map((p: any) => {
@@ -250,7 +250,7 @@ const BentoDashboardPureStyle = React.memo(function BentoDashboardPureStyle({
           {/* CARD 9: Smuggled Drugs */}
           <div 
             onClick={() => openModalForAspect?.("أدوية مهربة وغير مسجلة بهيئة الدواء المصرية", "عرض الأدوية المهربة والغير مسجلة بهيئة الدواء المصرية")}
-            className="border border-[#ECEEF2] bg-white rounded-2xl p-5 print:p-3 flex flex-col justify-between transition-all duration-300 bento-card cursor-pointer group hover:border-amber-500/30"
+            className="border border-[#ECEEF2] bg-white rounded-2xl p-5 print:p-3 flex flex-col justify-between transition-all duration-200 ease-out bento-card cursor-pointer group hover:border-amber-500/30"
           >
             <div>
               <h3 className="text-sm font-bold text-neutral-500 font-serif group-hover:text-blue-600 transition-colors">أدوية مهربة وغير مسجلة بهيئة الدواء</h3>
@@ -266,7 +266,7 @@ const BentoDashboardPureStyle = React.memo(function BentoDashboardPureStyle({
           {/* CARD 10: Unknown Source Drugs */}
           <div 
             onClick={() => openModalForAspect?.("أدوية بدون فواتير رسمية مجهولة المصدر", "أدوية مجهولة المصدر")}
-            className="border border-[#ECEEF2] bg-white rounded-2xl p-5 print:p-3 flex flex-col justify-between transition-all duration-300 bento-card cursor-pointer group hover:border-purple-500/30"
+            className="border border-[#ECEEF2] bg-white rounded-2xl p-5 print:p-3 flex flex-col justify-between transition-all duration-200 ease-out bento-card cursor-pointer group hover:border-purple-500/30"
           >
             <div>
               <h3 className="text-sm font-bold text-neutral-500 font-serif group-hover:text-blue-600 transition-colors">عرض مستحضرات بدون فواتير رسمية</h3>
@@ -282,7 +282,7 @@ const BentoDashboardPureStyle = React.memo(function BentoDashboardPureStyle({
           {/* CARD 11: Price Violations */}
           <div 
             onClick={() => openModalForAspect?.("مخالفات البيع بأعلى من التسعيرة الجبرية المعتمدة", "عرض ادوية  أعلى من السعر الجبري")}
-            className="border border-[#ECEEF2] bg-white rounded-2xl p-5 print:p-3 flex flex-col justify-between transition-all duration-300 bento-card cursor-pointer group hover:border-indigo-550/30"
+            className="border border-[#ECEEF2] bg-white rounded-2xl p-5 print:p-3 flex flex-col justify-between transition-all duration-200 ease-out bento-card cursor-pointer group hover:border-indigo-550/30"
           >
             <div>
               <h3 className="text-sm font-bold text-neutral-500 font-serif group-hover:text-blue-600 transition-colors">بيع بأعلى من السعر الجبرى</h3>
@@ -298,7 +298,7 @@ const BentoDashboardPureStyle = React.memo(function BentoDashboardPureStyle({
           {/* CARD 12: Unified purchase drugs */}
           <div 
             onClick={() => openModalForAspect?.("مستحضرات مسربة خاصة بهيئة الشراء الموحد", "عرض ادوية هيئة شراء موحد")}
-            className="border border-[#ECEEF2] bg-white rounded-2xl p-5 print:p-3 flex flex-col justify-between transition-all duration-300 bento-card cursor-pointer group hover:border-emerald-500/30"
+            className="border border-[#ECEEF2] bg-white rounded-2xl p-5 print:p-3 flex flex-col justify-between transition-all duration-200 ease-out bento-card cursor-pointer group hover:border-emerald-500/30"
           >
             <div>
               <h3 className="text-sm font-bold text-neutral-500 font-serif group-hover:text-blue-600 transition-colors">بيع أدوية مخصصة لهيئة الشراء الموحد</h3>
@@ -314,7 +314,7 @@ const BentoDashboardPureStyle = React.memo(function BentoDashboardPureStyle({
           {/* CARD 13: Online app sales (Full Width Centered Card) */}
           <div 
             onClick={() => openModalForAspect?.("مخالفات البيع عبر التطبيقات الإلكترونية", "بيع عن طريق تطبيق الكتروني")}
-            className="border border-[#ECEEF2] bg-white rounded-2xl p-5 print:p-2.5 transition-all md:col-span-3 print:col-span-3 flex flex-col items-center justify-center text-center bento-card cursor-pointer group hover:border-[#171717]/40"
+            className="border border-[#ECEEF2] bg-white rounded-2xl p-5 print:p-2.5 transition-all duration-200 ease-out md:col-span-3 print:col-span-3 flex flex-col items-center justify-center text-center bento-card cursor-pointer group hover:border-[#171717]/40"
           >
             <div className="flex flex-col items-center">
               <h3 className="text-sm md:text-md font-bold font-serif text-[#171717] mb-2.5 print:mb-1 group-hover:text-blue-600 transition-colors">بيع عن طريق تطبيق الكترونى</h3>
@@ -778,7 +778,7 @@ export default function App() {
     return localStorage.getItem("cybercrime_last_synced") || null;
   });
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
-  const [isInitialAutoSyncing, setIsInitialAutoSyncing] = useState<boolean>(true);
+  const [isInitialAutoSyncing, setIsInitialAutoSyncing] = useState<boolean>(false);
   const [hasInitialAutoSyncCompleted, setHasInitialAutoSyncCompleted] = useState<boolean>(false);
   const [syncError, setSyncError] = useState<string | null>(null);
   const [isSyncSectionExpanded, setIsSyncSectionExpanded] = useState<boolean>(false);
@@ -1195,8 +1195,15 @@ export default function App() {
         throw new Error("تم الاتصال بنجاح ولكن لم يتم جلب أي بيانات تفصيلية. يرجى التأكد من تسمية الورقة (Tab) باسم 'Data' بدقة، وأنها تحتوي على الأعمدة الثلاثة ببيانات المفتشين والإجراءات.");
       }
 
-      // Save to states and browser persistence
-      setSheetData(parsedRows);
+      const hasSameData = sheetData.length === parsedRows.length && sheetData.every((row, index) => {
+        const nextRow = parsedRows[index];
+        return nextRow && row.aspect === nextRow.aspect && row.count === nextRow.count && row.date === nextRow.date;
+      });
+
+      // Save to states and browser persistence only when the data truly changes.
+      if (!hasSameData) {
+        setSheetData(parsedRows);
+      }
       setGoogleSheetUrl(urlToSync);
       
       const egyptianTime = new Date().toLocaleTimeString("ar-EG", {
@@ -1239,7 +1246,7 @@ export default function App() {
     }
   };
 
-  // Auto sync once on mount if googleSheetUrl is stored or passed via URL query parameter.
+  // Auto sync once on mount after the app has painted, so the first load stays lightweight and responsive.
   useEffect(() => {
     if (autoSyncAttemptedRef.current) return;
     autoSyncAttemptedRef.current = true;
@@ -1256,7 +1263,28 @@ export default function App() {
       : targetUrl;
 
     setGoogleSheetUrl(normalizedUrl);
-    handleSyncGoogleSheet(normalizedUrl, { isInitialAutoSync: true });
+
+    const runInitialSync = () => {
+      handleSyncGoogleSheet(normalizedUrl, { isInitialAutoSync: true });
+    };
+
+    let idleHandle: number | undefined;
+    const frameId = window.requestAnimationFrame(() => {
+      idleHandle = typeof window.requestIdleCallback === "function"
+        ? window.requestIdleCallback(runInitialSync, { timeout: 800 })
+        : window.setTimeout(runInitialSync, 140);
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      if (typeof idleHandle === "number") {
+        if (typeof window.cancelIdleCallback === "function") {
+          window.cancelIdleCallback(idleHandle);
+        } else {
+          window.clearTimeout(idleHandle);
+        }
+      }
+    };
   }, []);
 
   // Reset edited data back to initial sample values
@@ -2199,7 +2227,7 @@ export default function App() {
                 {/* CARD 1: Total Seizure value in LE (Uneven row / heights, spans 1 column) */}
                 <div 
                   onClick={() => openModalForAspect("إجمالي القيمة التقديرية للمضبوطات الدوائية", "اجمالى قيمة المضبوطات", "جنيه")}
-                  className="border border-[#ECEEF2] bg-white rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 md:col-span-1 md:row-span-1 bento-card cursor-pointer group hover:border-blue-600/30 ring-1 ring-transparent hover:ring-blue-100/50 hover:bg-neutral-50/10"
+                  className="border border-[#ECEEF2] bg-white rounded-2xl p-6 flex flex-col justify-between transition-all duration-200 ease-out md:col-span-1 md:row-span-1 bento-card cursor-pointer group hover:border-[#E5E7EB] ring-1 ring-transparent hover:ring-blue-100/50 hover:bg-neutral-50/10 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.08)]"
                 >
                   <div className="flex justify-between items-start">
                     <div>
@@ -2218,7 +2246,7 @@ export default function App() {
                 {/* CARD 2: Total seizures counts (Grand KPI Hero Card, Spans 1 Col) */}
                 <div 
                   onClick={() => openModalForAspect("إجمالي عدد الضبطيات الرقمية لوحدة الرصد", "إجمالي الضبطيات", "ضبطية")}
-                  className="border border-[#ECEEF2] bg-white rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 md:col-span-1 md:row-span-1 bento-card cursor-pointer group hover:border-blue-600/30 ring-1 ring-transparent hover:ring-blue-100/50 hover:bg-neutral-50/10"
+                  className="border border-[#ECEEF2] bg-white rounded-2xl p-6 flex flex-col justify-between transition-all duration-200 ease-out md:col-span-1 md:row-span-1 bento-card cursor-pointer group hover:border-blue-600/30 ring-1 ring-transparent hover:ring-blue-100/50 hover:bg-neutral-50/10 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.08)]"
                 >
                   <div className="flex justify-between items-start">
                     <div>
@@ -2235,7 +2263,7 @@ export default function App() {
                 </div>
 
                 {/* CARD 7: Facilities Target numbers (Spans 2 Rows for a gorgeous vertical panel) */}
-                <motion.div variants={dashboardCardVariant} className="border border-[#ECEEF2] bg-white rounded-2xl px-3 md:px-4 py-4 md:py-5 transition-all flex flex-col md:col-span-1 md:row-span-2 bento-card">
+                <motion.div variants={dashboardCardVariant} className="border border-[#ECEEF2] bg-white rounded-2xl px-3 md:px-4 py-4 md:py-5 transition-all duration-200 ease-out flex flex-col md:col-span-1 md:row-span-2 bento-card hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.08)]">
                   <div className="flex justify-center items-center text-center mb-3">
                     <h3 className="text-sm md:text-base font-bold text-[#171717] font-serif">نوع المؤسسة</h3>
                   </div>
@@ -2262,7 +2290,7 @@ export default function App() {
                 </motion.div>
 
                 {/* CARD 3: Inspector Performance (Spans 2 Rows vertically to fit the puzzle perfectly) */}
-                <motion.div variants={dashboardCardVariant} className="border border-[#ECEEF2] bg-white rounded-2xl p-4 md:p-5 transition-all flex flex-col md:col-span-1 md:row-span-2 bento-card">
+                <motion.div variants={dashboardCardVariant} className="border border-[#ECEEF2] bg-white rounded-2xl p-4 md:p-5 transition-all duration-200 ease-out flex flex-col md:col-span-1 md:row-span-2 bento-card hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.08)]">
                   <div className="text-right mb-3.5">
                     <h3 className="text-sm md:text-base font-bold text-[#171717] font-serif">عدد الضبطيات الموثقة لكل مفتش</h3>
                   </div>
@@ -2308,7 +2336,7 @@ export default function App() {
                 {/* CARD 4: Facebook aspect (Spans 1 Col, height is Row-span-1) */}
                 <div 
                   onClick={() => openModalForAspect("مخالفات الترويج عبر الفيسبوك", "فيسبوك")}
-                  className="border border-[#ECEEF2] bg-white rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 md:col-span-1 md:row-span-1 bento-card cursor-pointer group hover:border-blue-600/30 ring-1 ring-transparent hover:ring-blue-100/50 hover:bg-neutral-50/10"
+                  className="border border-[#ECEEF2] bg-white rounded-2xl p-6 flex flex-col justify-between transition-all duration-200 ease-out md:col-span-1 md:row-span-1 bento-card cursor-pointer group hover:border-blue-600/30 ring-1 ring-transparent hover:ring-blue-100/50 hover:bg-neutral-50/10 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.08)]"
                 >
                   <div className="flex justify-between items-start">
                     <div>
@@ -2327,7 +2355,7 @@ export default function App() {
                 {/* CARD 5: Instashop aspect value (Spans 1 Col, height is Row-span-1) */}
                 <div 
                   onClick={() => openModalForAspect("مخالفات التوصيل عبر تطبيق انستاشوب", "انستاشوب")}
-                  className="border border-[#ECEEF2] bg-white rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 md:col-span-1 md:row-span-1 bento-card cursor-pointer group hover:border-[#171717]/40 ring-1 ring-transparent hover:ring-neutral-200/50 hover:bg-neutral-50/10"
+                  className="border border-[#ECEEF2] bg-white rounded-2xl p-6 flex flex-col justify-between transition-all duration-200 ease-out md:col-span-1 md:row-span-1 bento-card cursor-pointer group hover:border-[#171717]/40 ring-1 ring-transparent hover:ring-neutral-200/50 hover:bg-neutral-50/10 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.08)]"
                 >
                   <div className="flex justify-between items-start">
                     <div>
@@ -2346,7 +2374,7 @@ export default function App() {
                 {/* CARD 8: Schedule Drugs */}
                 <div 
                   onClick={() => openModalForAspect("مخالفات الاتجار بالأدوية المخدرة والسموم", "أدوية جدول")}
-                  className="border border-[#ECEEF2] bg-white rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 md:col-span-1 md:row-span-1 bento-card cursor-pointer group hover:border-red-500/30 ring-1 ring-transparent hover:ring-red-100/50 hover:bg-neutral-50/10"
+                  className="border border-[#ECEEF2] bg-white rounded-2xl p-6 flex flex-col justify-between transition-all duration-200 ease-out md:col-span-1 md:row-span-1 bento-card cursor-pointer group hover:border-red-500/30 ring-1 ring-transparent hover:ring-red-100/50 hover:bg-neutral-50/10 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.08)]"
                 >
                   <div className="flex justify-between items-start">
                     <div>
@@ -2363,7 +2391,7 @@ export default function App() {
                 </div>
 
                 {/* CARD 6: Remaining platforms AND marketing sources, spans 2 columns, beautifully packed */}
-                <motion.div variants={dashboardCardVariant} className="border border-[#ECEEF2] bg-white rounded-2xl p-6 transition-all flex flex-col md:col-span-2 md:row-span-1 bento-card">
+                <motion.div variants={dashboardCardVariant} className="border border-[#ECEEF2] bg-white rounded-2xl p-6 transition-all duration-200 ease-out flex flex-col md:col-span-2 md:row-span-1 bento-card hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.08)]">
                   <div className="flex justify-between items-center mb-4">
                     <div>
                       <h3 className="text-base font-bold text-[#171717] font-serif">وسائل التواصل ومنصات العرض</h3>
@@ -2394,7 +2422,7 @@ export default function App() {
                 {/* CARD 9: Smuggled Drugs */}
                 <div 
                   onClick={() => openModalForAspect("أدوية مهربة وغير مسجلة بهيئة الدواء المصرية", "عرض الأدوية المهربة والغير مسجلة بهيئة الدواء المصرية")}
-                  className="border border-[#ECEEF2] bg-white rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 md:col-span-1 md:row-span-1 bento-card cursor-pointer group hover:border-amber-500/30 ring-1 ring-transparent hover:ring-amber-100/50 hover:bg-neutral-50/10"
+                  className="border border-[#ECEEF2] bg-white rounded-2xl p-6 flex flex-col justify-between transition-all duration-200 ease-out md:col-span-1 md:row-span-1 bento-card cursor-pointer group hover:border-amber-500/30 ring-1 ring-transparent hover:ring-amber-100/50 hover:bg-neutral-50/10 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.08)]"
                 >
                   <div className="flex justify-between items-start">
                     <div>
@@ -2413,7 +2441,7 @@ export default function App() {
                 {/* CARD 10: Unknown Source Drugs */}
                 <div 
                   onClick={() => openModalForAspect("أدوية بدون فواتير رسمية مجهولة المصدر", "أدوية مجهولة المصدر")}
-                  className="border border-[#ECEEF2] bg-white rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 md:col-span-1 md:row-span-1 bento-card cursor-pointer group hover:border-purple-500/30 ring-1 ring-transparent hover:ring-purple-100/50 hover:bg-neutral-50/10"
+                  className="border border-[#ECEEF2] bg-white rounded-2xl p-6 flex flex-col justify-between transition-all duration-200 ease-out md:col-span-1 md:row-span-1 bento-card cursor-pointer group hover:border-purple-500/30 ring-1 ring-transparent hover:ring-purple-100/50 hover:bg-neutral-50/10 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.08)]"
                 >
                   <div className="flex justify-between items-start">
                     <div>
@@ -2432,7 +2460,7 @@ export default function App() {
                 {/* CARD 11: Compulsory price violation */}
                 <div 
                   onClick={() => openModalForAspect("مخالفات البيع بأعلى من التسعيرة الجبرية المعتمدة", "عرض ادوية  أعلى من السعر الجبري")}
-                  className="border border-[#ECEEF2] bg-white rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 md:col-span-1 md:row-span-1 bento-card cursor-pointer group hover:border-indigo-550/30 ring-1 ring-transparent hover:ring-indigo-100/50 hover:bg-neutral-50/10"
+                  className="border border-[#ECEEF2] bg-white rounded-2xl p-6 flex flex-col justify-between transition-all duration-200 ease-out md:col-span-1 md:row-span-1 bento-card cursor-pointer group hover:border-indigo-550/30 ring-1 ring-transparent hover:ring-indigo-100/50 hover:bg-neutral-50/10 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.08)]"
                 >
                   <div className="flex justify-between items-start">
                     <div>
@@ -2451,7 +2479,7 @@ export default function App() {
                 {/* CARD 12: Unified purchase drugs */}
                 <div 
                   onClick={() => openModalForAspect("مستحضرات مسربة خاصة بهيئة الشراء الموحد", "عرض ادوية هيئة شراء موحد")}
-                  className="border border-[#ECEEF2] bg-white rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 md:col-span-1 md:row-span-1 bento-card cursor-pointer group hover:border-emerald-500/30 ring-1 ring-transparent hover:ring-emerald-100/50 hover:bg-neutral-50/10"
+                  className="border border-[#ECEEF2] bg-white rounded-2xl p-6 flex flex-col justify-between transition-all duration-200 ease-out md:col-span-1 md:row-span-1 bento-card cursor-pointer group hover:border-emerald-500/30 ring-1 ring-transparent hover:ring-emerald-100/50 hover:bg-neutral-50/10 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.08)]"
                 >
                   <div className="flex justify-between items-start">
                     <div>
@@ -2470,7 +2498,7 @@ export default function App() {
                 {/* CARD 13: Online app sales (Full Width Centered Card) */}
                 <div 
                   onClick={() => openModalForAspect("مخالفات البيع عبر التطبيقات الإلكترونية", "بيع عن طريق بيع إلكتروني")}
-                  className="border border-[#ECEEF2] bg-white rounded-2xl p-6 transition-all md:col-span-3 flex flex-col items-center justify-center text-center bento-card cursor-pointer group hover:border-[#171717]/40 hover:bg-neutral-50/10 ring-1 ring-transparent hover:ring-neutral-250/50"
+                  className="border border-[#ECEEF2] bg-white rounded-2xl p-6 transition-all duration-200 ease-out md:col-span-3 flex flex-col items-center justify-center text-center bento-card cursor-pointer group hover:border-[#171717]/40 hover:bg-neutral-50/10 ring-1 ring-transparent hover:ring-neutral-250/50 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.08)]"
                 >
                   <div className="flex flex-col items-center">
                     <h3 className="text-base md:text-lg font-bold font-serif text-[#171717] mb-3 group-hover:text-blue-600 transition-colors">بيع عن طريق تطبيق الكترونى</h3>
