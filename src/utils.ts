@@ -106,86 +106,72 @@ export function computeMetrics(data: SheetRow[], selectedMonth: string): Dashboa
     }
 
     // 2. Platforms
-    if (norm.includes("انستاشوب") || norm.includes("instashop")) {
+    if (norm === "انستاشوب") {
       platformsMap["انستاشوب"] += count;
-    } else if (norm.includes("فيسبوك") || norm.includes("facebook") || norm.includes("فيس بوك")) {
+    } else if (norm === "فيسبوك") {
       platformsMap["فيسبوك"] += count;
-    } else if (norm.includes("انستاجرام") || norm.includes("انستجرام") || norm.includes("instagram")) {
+    } else if (norm === "انستاجرام") {
       platformsMap["انستاجرام"] += count;
-    } else if (norm.includes("واتساب") || norm.includes("whatsapp") || norm.includes("واتس اب") || norm.includes("واتس")) {
+    } else if (norm === "واتساب") {
       platformsMap["واتساب"] += count;
-    } else if (norm.includes("موقع الكتروني") || norm.includes("موقع الكترونى") || norm.includes("website") || norm.includes("موقع ويب")) {
+    } else if (norm === "موقع الكتروني" || norm === "موقع الكترونى") {
       platformsMap["موقع الكترونى"] += count;
-    } else if (norm.includes("بدون") || norm.includes("لا يوجد") || norm.includes("none")) {
+    } else if (norm === "ميداني") {
       platformsMap["بدون"] += count;
     }
 
     // 3. Adwia Jadwal (أدوية جدول)
     if (
-      norm.includes("مخدر") || 
-      norm.includes("جدول اول") || 
-      norm.includes("جدول ثالث") || 
-      norm.includes("جدول")
+      norm === "الاتجار بالادويه المخدره المدرجه جدول اول مخدرات" ||
+      norm === "الاتجار بالادويه المخدره المدرجه جدول ثالث مخدرات"
     ) {
       adwiaJadwal += count;
     }
 
     // 4. Adwia Moharaba (أدوية مهربة)
-    if (norm.includes("مهربه") || norm.includes("غير مسجله") || norm.includes("مهرب")) {
+     if (norm === "عرض الادويه المهربه والغير مسجله بهيئه الدواء المصريه") {
       adwiaMoharaba += count;
     }
 
     // 5. Adwia Majhoula (أدوية مجهولة المصدر)
     if (
-      norm.includes("مجهوله") || 
-      norm.includes("بدون فواتير") || 
-      norm.includes("مجهول المصدر") || 
-      norm.includes("فواتير رسميه")
+      norm === "عرض ادويه بدون فواتير مجهوله المصدر" ||
+      norm === "عرض كميات كبيره من الادويه بدون فواتير رسميه"
     ) {
       adwiaMajhoula += count;
     }
 
     // 6. Mokhalafat Ser Jabri (مخالفات سعر جبري)
-    if (
-      norm.includes("السعر الجبري") || 
-      norm.includes("سعر جبري") || 
-      norm.includes("اعلي من السعر")
-    ) {
+    if (norm === "عرض ادويه اعلي من السعر الجبري") {
       mokhalafatSerJabri += count;
     }
 
     // 7. Adwia Shira Mowahad (أدوية شراء موحد)
-    if (norm.includes("شراء موحد")) {
+    if (norm === "عرض ادويه هيئه شراء موحد") {
       adwiaShiraMowahad += count;
     }
 
     // 8. Electronic App Sales (بيع عن طريق تطبيق الكتروني)
-    if (
-      norm.includes("تطبيق الكتروني") || 
-      norm.includes("تطبيق الكترونى") || 
-      norm.includes("instashop")
+     if (
+      norm === "بيع عن طريق تطبيق الكتروني (instashop)" ||
+      norm === "بيع عن طريق تطبيق الكتروني"
     ) {
       electronicAppSales += count;
     }
 
     // 9. Total Seizures Value (اجمالى قيمة المضبوطات)
-    if (
-      norm.includes("قيمه المضبوطات") || 
-      norm.includes("اجمالي قيمه") || 
-      norm.includes("القيمه التقديريه") || 
-      norm.includes("مضبوطات") && norm.includes("قيمه")
-    ) {
+    if (norm === "اجمالي قيمه المضبوطات") {
       totalSeizuresValue += count;
     }
 
     // 10. Facilities
-    if (norm === "صيدليه" || norm === "صيدلية" || norm.includes("صيدلي")) {
+    if (norm === "صيدليه" || norm === "صيدلية") {
       facilitiesMap["صيدلية"] += count;
-    } else if (norm === "مخزن" || norm.includes("مخزن")) {
+    } else if (norm === "مخزن") {
       facilitiesMap["مخزن"] += count;
-    } else if (norm === "عياده" || norm === "عيادة" || norm.includes("عياد")) {
+    } else if (norm === "عياده" || norm === "عيادة") {
       facilitiesMap["عيادة"] += count;
-    } else if (norm === "مصنع" || norm.includes("مصنع")) {
+    } else if (norm === "مصنع") {
       facilitiesMap["مصنع"] += count;
     }
 

@@ -615,7 +615,7 @@ const syncButtonVariants = {
     y: -1.4,
     scale: 1.01,
     backgroundColor: "#0077ed",
-    boxShadow: "0 5px 16px rgba(0, 113, 227, 0.16), 0 1px 2px rgba(0, 113, 227, 0.05)",
+    boxShadow: "0 5px 10px rgba(15,23,42,0.10), 0 2px 3px rgba(15,23,42,0.04)",
     transition: { duration: 0.14, ease: [0.22, 1, 0.36, 1] }
   },
   tap: {
@@ -767,13 +767,9 @@ export default function App() {
   const [isHindiNumerals, setIsHindiNumerals] = useState<boolean>(true);
   
   // Google Sheets Direct Connect States
-  const [googleSheetUrl, setGoogleSheetUrl] = useState<string>(() => {
-    const saved = localStorage.getItem("cybercrime_sheet_url");
-    if (!saved || saved === OLD_DEFAULT_GOOGLE_SHEET_URL) {
-      return DEFAULT_GOOGLE_SHEET_URL;
-    }
-    return saved;
-  });
+  const [googleSheetUrl, setGoogleSheetUrl] = useState<string>(
+  DEFAULT_GOOGLE_SHEET_URL
+);
   const [lastSyncTime, setLastSyncTime] = useState<string | null>(() => {
     return localStorage.getItem("cybercrime_last_synced") || null;
   });
@@ -1214,7 +1210,6 @@ export default function App() {
       setLastSyncTime(egyptianTime);
       setSyncError(null);
 
-      localStorage.setItem("cybercrime_sheet_url", urlToSync);
       localStorage.setItem("cybercrime_sheet_data", JSON.stringify(parsedRows));
       localStorage.setItem("cybercrime_last_synced", egyptianTime);
     } catch (err: any) {
@@ -1251,22 +1246,13 @@ export default function App() {
     if (autoSyncAttemptedRef.current) return;
     autoSyncAttemptedRef.current = true;
 
-    const searchStr = window.location.search || (window.location.hash.includes("?") ? window.location.hash.substring(window.location.hash.indexOf("?")) : "");
-    const params = new URLSearchParams(searchStr);
-    const urlParam = params.get("sheet") || params.get("url") || params.get("sheetUrl");
-    const targetUrl = urlParam
-      ? decodeURIComponent(urlParam)
-      : (localStorage.getItem("cybercrime_sheet_url") || DEFAULT_GOOGLE_SHEET_URL);
+    const normalizedUrl = DEFAULT_GOOGLE_SHEET_URL;
 
-    const normalizedUrl = (!targetUrl || targetUrl === OLD_DEFAULT_GOOGLE_SHEET_URL)
-      ? DEFAULT_GOOGLE_SHEET_URL
-      : targetUrl;
+setGoogleSheetUrl(normalizedUrl);
 
-    setGoogleSheetUrl(normalizedUrl);
-
-    const runInitialSync = () => {
-      handleSyncGoogleSheet(normalizedUrl, { isInitialAutoSync: true });
-    };
+const runInitialSync = () => {
+  handleSyncGoogleSheet(normalizedUrl, { isInitialAutoSync: true });
+};
 
     let idleHandle: number | undefined;
     const frameId = window.requestAnimationFrame(() => {
@@ -1525,39 +1511,39 @@ export default function App() {
         const norm = normalizeText(rawAspect);
 
           if (aspectKey === "أدوية جدول") {
-            matches = (norm.includes("مخدر") || norm.includes("جدول اول") || norm.includes("جدول ثالث") || norm.includes("جدول"));
+            matches = (norm === "الاتجار بالادويه المخدره المدرجه جدول اول مخدرات" || norm === "الاتجار بالادويه المخدره المدرجه جدول ثالث مخدرات");
           } else if (aspectKey === "أدوية مجهولة المصدر" || aspectKey === "أدوية مجهولة") {
-            matches = (norm.includes("مجهوله") || norm.includes("بدون فواتير") || norm.includes("مجهول المصدر") || norm.includes("فواتير رسميه"));
+            matches = (norm === "عرض ادويه بدون فواتير مجهوله المصدر" || norm === "عرض كميات كبيره من الادويه بدون فواتير رسميه");
           } else if (aspectKey === "بيع عن طريق بيع إلكتروني" || aspectKey === "بيع عن طريق تطبيق الكتروني (instashop)" || aspectKey === "بيع عن طريق تطبيق الكتروني" || aspectKey === "بيع عن طريق تطبيق الكترonى") {
-            matches = (norm.includes("تطبيق الكتروني") || norm.includes("تطبيق الكترonى") || norm.includes("instashop") || norm.includes("تطبيق الكترونى"));
+            matches = (norm === "بيع عن طريق تطبيق الكتروني (instashop)" || norm === "بيع عن طريق تطبيق الكتروني");
           } else if (aspectKey === "عرض الأدوية المهربة والغير مسجلة بهيئة الدواء المصرية" || aspectKey === "أدوية مهربة") {
-            matches = (norm.includes("مهربه") || norm.includes("غير مسجله") || norm.includes("مهرب"));
+            matches = (norm === "عرض الادويه المهربه والغير مسجله بهيئه الدواء المصريه");
           } else if (aspectKey === "عرض ادوية  أعلى من السعر الجبري" || aspectKey === "أعلى من السعر الجبري" || aspectKey === "سعر جبري") {
-            matches = (norm.includes("السعر الجبري") || norm.includes("سعر جبري") || norm.includes("اعلي من السعر"));
+            matches = (norm === "عرض ادويه اعلي من السعر الجبري");
           } else if (aspectKey === "عرض ادوية هيئة شراء موحد" || aspectKey === "شراء موحد") {
-            matches = (norm.includes("شراء موحد"));
+            matches = (norm === "عرض ادويه هيئه شراء موحد");
           } else if (aspectKey === "اجمالى قيمة المضبوطات" || aspectKey === "إجمالي قيمة المضبوطات") {
-            matches = (norm.includes("قيمه المضبوطات") || norm.includes("اجمالي قيمه") || norm.includes("القيمه التقديريه") || (norm.includes("مضبوطات") && norm.includes("قيمه")));
+            matches = (norm === "اجمالي قيمه المضبوطات");
           } else if (aspectKey === "صيدلية" || aspectKey === "صيدليه") {
-            matches = (norm === "صيدليه" || norm === "صيدلية" || norm.includes("صيدلي"));
+            matches = (norm === "صيدليه");
           } else if (aspectKey === "مخزن") {
-            matches = (norm === "مخزن" || norm.includes("مخزن"));
+            matches = (norm === "مخزن");
           } else if (aspectKey === "عيادة" || aspectKey === "عياده") {
-            matches = (norm === "عياده" || norm === "عيادة" || norm.includes("عياد"));
+            matches = (norm === "عياده");
           } else if (aspectKey === "مصنع") {
-            matches = (norm === "مصنع" || norm.includes("مصنع"));
+            matches = (norm === "مصنع");
           } else if (aspectKey === "انستاشوب") {
-            matches = (norm.includes("انستاشوب") || norm.includes("instashop"));
+            matches = (norm === "انستاشوب" || norm === "instashop");
           } else if (aspectKey === "فيسبوك") {
-            matches = (norm.includes("فيسبوك") || norm.includes("facebook") || norm.includes("فيس بوك"));
+            matches = (norm === "فيسبوك" || norm === "facebook" || norm === "فيس بوك");
           } else if (aspectKey === "انستاجرام") {
-            matches = (norm.includes("انستاجرام") || norm.includes("انستجرام") || norm.includes("instagram"));
+            matches = (norm === "انستاجرام" || norm === "انستجرام" || norm === "instagram");
           } else if (aspectKey === "واتساب") {
-            matches = (norm.includes("واتساب") || norm.includes("whatsapp") || norm.includes("واتس اب") || norm.includes("واتس"));
+            matches = (norm === "واتساب" || norm === "whatsapp" || norm === "واتس اب" || norm === "واتس");
           } else if (aspectKey === "موقع الكترونى" || aspectKey === "موقع الكتروني") {
-            matches = (norm.includes("موقع الكتروني") || norm.includes("موقع الكترونى") || norm.includes("website") || norm.includes("موقع ويب"));
+            matches = (norm === "موقع الكتروني" || norm === "موقع الكترونى" || norm === "website" || norm === "موقع ويب");
           } else if (aspectKey === "بدون") {
-            matches = (norm.includes("بدون") || norm.includes("لا يوجد") || norm.includes("none"));
+            matches = (norm === "ميداني");
           } else if (aspectKey === "إجمالي الضبطيات" || aspectKey === "إجمالي عدد الضبطيات الرقمية لوحدة الرصد" || aspectKey === "totalSeizures") {
             if (hasDedicatedTotalSeizures) {
               matches = (norm === "اجمالي عدد الضبطيات");
@@ -1937,7 +1923,7 @@ export default function App() {
             <div className="relative aspect-square w-10 h-10 md:w-[42px] md:h-[42px] shrink-0 flex-none" id="sync-toolbar-wrapper">
               <motion.button
                 onClick={() => {
-                  const activeUrl = googleSheetUrl || localStorage.getItem("cybercrime_sheet_url") || "";
+                  const activeUrl = googleSheetUrl || "";
                   if (!activeUrl) {
                     const promptUrl = window.prompt("يرجى إدخال رابط جدول بيانات Google Sheet الخاص بكم للمزامنة الفورية:", "");
                     if (promptUrl) {
@@ -2276,7 +2262,7 @@ export default function App() {
                           <div 
                             key={fac.name}
                             onClick={() => openModalForAspect(getFacilityModalTitle(fac.name), fac.name)}
-                            className="border border-[#ECEEF2] bg-neutral-50/30 hover:bg-neutral-50/10 rounded-2xl p-4 flex flex-col justify-center items-center text-center transition-all duration-300 cursor-pointer group hover:border-blue-600/30 ring-1 ring-transparent hover:ring-blue-100/30 aspect-[1.1/1]"
+                            className="border border-[#ECEEF2] bg-neutral-50/30 hover:bg-neutral-50/10 rounded-2xl p-4 flex flex-col justify-center items-center text-center transition-all duration-200 ease-out cursor-pointer group hover:border-blue-600/30 ring-1 ring-transparent hover:ring-blue-100/30 aspect-[1.1/1]"
                           >
                             <span className="text-xs md:text-sm font-bold text-neutral-500 font-serif leading-tight mb-1 group-hover:text-blue-500 transition-colors">{meta.label}</span>
                             <span className="text-2xl md:text-3xl font-black text-[#171717] font-mono apple-num leading-none mt-2 group-hover:text-blue-600 transition-colors">
