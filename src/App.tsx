@@ -581,22 +581,22 @@ const whiteButtonVariants = {
     y: 0,
     filter: "blur(0px)",
     backgroundColor: "#ffffff",
-    boxShadow: "0 1px 2px rgba(0, 0, 0, 0.01), 0 0 0 0.5px rgba(0, 0, 0, 0.03)",
+    boxShadow: "0 1px 2px rgba(15,23,42,.02), 0 .5px 1px rgba(15,23,42,.02)",
     transition: { duration: 0.48, delay, ease: [0.16, 1, 0.3, 1] }
   }),
   hover: {
     y: -1.4,
-    scale: 1.01,
-    backgroundColor: "#fafafb",
-    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.01), 0 0 0 0.5px rgba(0, 0, 0, 0.02)",
-    transition: { duration: 0.14, ease: [0.22, 1, 0.36, 1] }
+    scale: 1.008,
+    backgroundColor: "#FCFCFD",
+    boxShadow: "0 5px 10px rgba(15,23,42,0.07), 0 2px 4px rgba(15,23,42,0.03), 0 0 0 0.5px rgba(228, 228, 228, 0.02)",
+    transition: { type: "spring", stiffness: 950, damping: 40, mass: 0.38 }
   },
   tap: {
-    y: -0.9,
-    scale: 0.986,
-    backgroundColor: "#f2f2f5",
+    y: 0,
+    scale: 0.975,
+    backgroundColor: "#F5F5F7",
     boxShadow: "0 2px 6px rgba(0, 0, 0, 0.03), 0 1px 1px rgba(0, 0, 0, 0.01), 0 0 0 0.5px rgba(0, 0, 0, 0.03)",
-    transition: { duration: 0.08, ease: [0.22, 1, 0.36, 1] }
+    transition: { type: "spring", stiffness: 1500, damping: 44, mass: 0.30 }
   }
 };
 
@@ -612,18 +612,18 @@ const syncButtonVariants = {
     transition: { duration: 0.48, delay, ease: [0.16, 1, 0.3, 1] }
   }),
   hover: {
-    y: -1.4,
+    y: -2,
     scale: 1.01,
     backgroundColor: "#0077ed",
-    boxShadow: "0 5px 10px rgba(15,23,42,0.10), 0 2px 3px rgba(15,23,42,0.04)",
-    transition: { duration: 0.14, ease: [0.22, 1, 0.36, 1] }
+    boxShadow: "0 5px 10px rgba(0,113,227,0.18), 0 2px 4px rgba(0,113,227,0.08)",
+    transition: { type: "spring", stiffness: 950, damping: 40, mass: 0.38 }
   },
   tap: {
-    y: -0.9,
-    scale: 0.986,
-    backgroundColor: "#0062c2",
-    boxShadow: "0 2px 8px rgba(0, 113, 227, 0.12)",
-    transition: { duration: 0.08, ease: [0.22, 1, 0.36, 1] }
+    y: 0,
+    scale: 0.975,
+    backgroundColor: "#0068D6",
+    boxShadow: "0 1px 3px rgba(0,113,227,0.10), inset 0 1px 0 rgba(255,255,255,0.10)",
+    transition: { type: "spring", stiffness: 1500, damping: 44, mass: 0.30 }
   }
 };
 
