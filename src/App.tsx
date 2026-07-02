@@ -607,21 +607,21 @@ const syncButtonVariants = {
     scale: 1,
     y: 0,
     filter: "blur(0px)",
-    backgroundColor: "#0071e3",
+    backgroundColor: "#006FDB",
     boxShadow: "0 1px 2px rgba(0, 113, 227, 0.1)",
     transition: { duration: 0.48, delay, ease: [0.16, 1, 0.3, 1] }
   }),
   hover: {
     y: -2,
     scale: 1.01,
-    backgroundColor: "#0077ed",
-    boxShadow: "0 5px 10px rgba(0,113,227,0.18), 0 2px 4px rgba(0,113,227,0.08)",
+    backgroundColor: "#007AFF",
+    boxShadow: "0 7px 18px rgba(15,23,42,0.065), 0 2px 5px rgba(15,23,42,0.025)",
     transition: { type: "spring", stiffness: 950, damping: 40, mass: 0.38 }
   },
   tap: {
     y: 0,
     scale: 0.975,
-    backgroundColor: "#0068D6",
+    backgroundColor: "#006FE0",
     boxShadow: "0 1px 3px rgba(0,113,227,0.10), inset 0 1px 0 rgba(255,255,255,0.10)",
     transition: { type: "spring", stiffness: 1500, damping: 44, mass: 0.30 }
   }
@@ -2553,7 +2553,7 @@ const runInitialSync = () => {
               {isSyncSectionExpanded && (
                 <div className="mt-5 pt-5 border-t border-neutral-100 animate-fade-in space-y-5">
                   <p className="text-xs text-neutral-400 leading-relaxed">
-                    قم بمشاركة ملف Google Sheet الخاص بكم ليكون <span className="font-bold text-[#171717]">"أي شخص لديه الرابط يمكنه العرض" (Viewer)</span>، ثم الصق رابط الشيت بالنعش أدناه وسيتكفل التطبيق بجلب وتحديث كافة المخططات والخدمات بثوانٍ وبشكل حي كامل!
+                    قم بإدخال رابط ملف Google Sheets وتأكد من إتاحة الملف للعرض عبر الرابط عن طريق ضبط إعدادات المشاركة على <span className="font-bold text-[#171717]">"Anyone with the link" </span> ، ثم اضغط «مزامنة» لاستيراد البيانات وتحديث جميع المؤشرات!
                   </p>
 
                   {googleSheetUrl && (
@@ -2618,7 +2618,7 @@ const runInitialSync = () => {
                     <span>جدول البيانات السنوي المجمع</span>
                   </h2>
                   <p className="text-xs text-neutral-400 mt-1">
-                    هنا يتم عرض كافة مؤشرات الرصد والضبط الميداني مجمعة في جدول مقارن شهري على مدار العام مع المجاميع تلقائياً.
+                    يعرض الجدول جميع مؤشرات الرصد والضبط الميداني ضمن عرض شهرى مقارن على مدار العام مع حساب الإجمالى.
                   </p>
                 </div>
                 
